@@ -1,11 +1,12 @@
 package com.willian.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.willian.dto.TransferDto;
 import com.willian.service.TransferService;
 
 import lombok.AllArgsConstructor;
@@ -22,8 +23,8 @@ public class TransactionController {
         return "Transaction path";
     }
 
-    @PostMapping("/{id}")
-    public void transfer(@PathVariable("id") Long id){
-        transferService.execute(id);
+    @PostMapping
+    public String transfer(@RequestBody TransferDto transferData){
+        return transferService.execute(transferData);
     }
 }

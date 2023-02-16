@@ -25,5 +25,19 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private double balance = 0;
+    private double balance = 100;
+
+    public void credit(double amount){
+        this.balance += amount;
+    }
+
+    public boolean debit(double amount){
+        if(balance >= amount){
+            this.balance -= amount;
+
+            return true;
+        }
+
+        return false;
+    }
 }
