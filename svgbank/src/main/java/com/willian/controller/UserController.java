@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.willian.dto.CreateUserDto;
+import com.willian.dto.LoginDto;
 import com.willian.model.User;
 import com.willian.service.FindUserService;
 import com.willian.service.ListAllUsersService;
-import com.willian.service.SignInService;
+import com.willian.service.LoginService;
+import com.willian.service.SignUpService;
 
 import lombok.AllArgsConstructor;
 
@@ -21,9 +23,10 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/")
 @AllArgsConstructor
 public class UserController {
-    private SignInService signInService;
+    private SignUpService signUpService;
     private ListAllUsersService listAllUsersService;
     private FindUserService findUserService;
+    private LoginService loginService;
     
     @GetMapping
     public List<User> list(){
@@ -36,8 +39,16 @@ public class UserController {
     }
 
     @PostMapping(path = "create")
-    public void signIn(@RequestBody CreateUserDto user){
-        signInService.execute(user);
+    public void signUp(@RequestBody CreateUserDto user){
+        signUpService.execute(user);
+    }
+
+    @PostMapping(path = "login")
+    public User login(@RequestBody LoginDto loginData ){
+        User user = loginService.execute(loginData);
+        user.setPassword(null);
+
+        return user;
     }
 
 }
