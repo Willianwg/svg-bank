@@ -7,5 +7,5 @@ import com.willian.model.Transaction;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    
+
 }

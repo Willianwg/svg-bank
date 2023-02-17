@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.willian.dto.TransferDto;
 import com.willian.model.Transaction;
+import com.willian.model.enums.TransactionTypes;
 import com.willian.model.User;
 import com.willian.repository.TransactionRepository;
 import com.willian.repository.UserRepository;
@@ -40,11 +41,20 @@ public class TransferService {
 
         to.credit(amount);
 
-        Transaction transaction = new Transaction();
-        transaction.setFrom(from);
-        transaction.setTo(to);
-        transaction.setAmount(amount);
-        transactionRepository.save(transaction);
+        Transaction sentTransaction = new Transaction();
+        sentTransaction.setUser(from);
+        sentTransaction.setUser_email(from.getEmail());
+        sentTransaction.setType(TransactionTypes.SENT);
+        sentTransaction.setAmount(amount);
+
+        Transaction receivedTransaction = new Transaction();
+        receivedTransaction.setUser(to);
+        receivedTransaction.setUser_email(to.getEmail());
+        receivedTransaction.setType(TransactionTypes.RECEIVED);
+        receivedTransaction.setAmount(amount);
+
+        transactionRepository.save(sentTransaction);
+        transactionRepository.save(receivedTransaction);
                 
         userRepository.save(from);
         userRepository.save(to);
