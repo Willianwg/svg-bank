@@ -1,5 +1,6 @@
 package com.willian.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.willian.dto.TransferDto;
@@ -14,8 +15,18 @@ public class TransferService {
     private UserRepository userRepository;
 
     public String execute(TransferDto transferData){
+        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+
         User from = userRepository.findById(transferData.getFrom()).get();
         User to = userRepository.findById(transferData.getTo()).get();
+
+        String encodedPassword = from.getPassword();
+        boolean match = bcrypt.matches(transferData.getPassword(), encodedPassword);
+
+        if(!match){
+            return "Fail to resolve transaction, wrong credentials";
+        }
+
         double amount = transferData.getAmount();
 
         boolean success = from.debit(amount);
@@ -27,7 +38,7 @@ public class TransferService {
             return "Transaction succeeded";
         }
 
-        return "Fail to resolve transaction";
+        return "Fail to resolve transaction, insufficient balance";
         
 
     }
