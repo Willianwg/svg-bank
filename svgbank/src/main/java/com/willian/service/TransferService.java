@@ -55,6 +55,10 @@ public class TransferService {
 
         transactionRepository.save(sentTransaction);
         transactionRepository.save(receivedTransaction);
+
+        from.getTransactions().add(sentTransaction);
+        to.getTransactions().add(receivedTransaction);
+        
                 
         userRepository.save(from);
         userRepository.save(to);
