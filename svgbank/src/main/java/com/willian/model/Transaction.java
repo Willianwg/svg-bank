@@ -38,6 +38,10 @@ public class Transaction {
 
     private double amount;
 
+    private String sent_by;
+
+    private String received_by;
+
     @CreatedDate
     private Date createdAt;
 }

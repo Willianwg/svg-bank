@@ -46,19 +46,22 @@ public class TransferService {
         sentTransaction.setUser_email(from.getEmail());
         sentTransaction.setType(TransactionTypes.SENT);
         sentTransaction.setAmount(amount);
+        sentTransaction.setSent_by(from.getEmail());
+        sentTransaction.setReceived_by(to.getEmail());
 
         Transaction receivedTransaction = new Transaction();
         receivedTransaction.setUser(to);
         receivedTransaction.setUser_email(to.getEmail());
         receivedTransaction.setType(TransactionTypes.RECEIVED);
         receivedTransaction.setAmount(amount);
+        receivedTransaction.setSent_by(from.getEmail());
+        receivedTransaction.setReceived_by(to.getEmail());
 
         transactionRepository.save(sentTransaction);
         transactionRepository.save(receivedTransaction);
 
         from.getTransactions().add(sentTransaction);
         to.getTransactions().add(receivedTransaction);
-        
                 
         userRepository.save(from);
         userRepository.save(to);
