@@ -42,16 +42,12 @@ public class TransferService {
         to.credit(amount);
 
         Transaction sentTransaction = new Transaction();
-        sentTransaction.setUser(from);
-        sentTransaction.setUser_email(from.getEmail());
         sentTransaction.setType(TransactionTypes.SENT);
         sentTransaction.setAmount(amount);
         sentTransaction.setSent_by(from.getEmail());
         sentTransaction.setReceived_by(to.getEmail());
 
         Transaction receivedTransaction = new Transaction();
-        receivedTransaction.setUser(to);
-        receivedTransaction.setUser_email(to.getEmail());
         receivedTransaction.setType(TransactionTypes.RECEIVED);
         receivedTransaction.setAmount(amount);
         receivedTransaction.setSent_by(from.getEmail());
