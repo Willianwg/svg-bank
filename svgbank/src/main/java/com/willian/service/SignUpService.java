@@ -1,22 +1,21 @@
 package com.willian.service;
 
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.willian.dto.CreateUserDto;
 import com.willian.model.User;
-import com.willian.repository.UserRepository;
-
-import lombok.AllArgsConstructor;
+import com.willian.repository.IUserRepository;
 
 @Service
-@AllArgsConstructor
 public class SignUpService {
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
     
+    public SignUpService(IUserRepository userRepository){
+        this.userRepository = userRepository;
+    }
 
-    public void execute(CreateUserDto user){
+    public User execute(CreateUserDto user){
         BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
         String encodedPassword = bcrypt.encode(user.getPassword());
 
@@ -25,7 +24,7 @@ public class SignUpService {
         newUser.setEmail(user.getEmail());
         newUser.setPassword(encodedPassword);
         
-        userRepository.save(newUser);
+        return this.userRepository.save(newUser);
 
     }
 }

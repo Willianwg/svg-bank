@@ -5,15 +5,15 @@ import org.springframework.stereotype.Service;
 
 import com.willian.dto.LoginDto;
 import com.willian.model.User;
-import com.willian.repository.UserRepository;
-
-import lombok.AllArgsConstructor;
+import com.willian.repository.IUserRepository;
 
 @Service
-@AllArgsConstructor
 public class LoginService {
-    UserRepository userRepository;
+    private IUserRepository userRepository;
 
+    public LoginService(IUserRepository userRepository){
+        this.userRepository = userRepository;
+    }
     public User execute(LoginDto loginData){
         BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 

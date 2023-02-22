@@ -5,14 +5,15 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.willian.model.User;
-import com.willian.repository.UserRepository;
-
-import lombok.AllArgsConstructor;
+import com.willian.repository.IUserRepository;
 
 @Service
-@AllArgsConstructor
 public class ListAllUsersService {
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
+
+    public ListAllUsersService(IUserRepository userRepository){
+        this.userRepository = userRepository;
+    }
 
     public List<User> execute(){
         return userRepository.findAll();

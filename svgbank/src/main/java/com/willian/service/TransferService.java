@@ -8,14 +8,14 @@ import com.willian.model.Transaction;
 import com.willian.model.enums.TransactionTypes;
 import com.willian.model.User;
 import com.willian.repository.TransactionRepository;
-import com.willian.repository.UserRepository;
+import com.willian.repository.UserRepositoryJPA;
 
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class TransferService {
-    private UserRepository userRepository;
+    private UserRepositoryJPA userRepository;
     private TransactionRepository transactionRepository;
 
     public String execute(TransferDto transferData) {
