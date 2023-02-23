@@ -17,6 +17,7 @@ import com.willian.service.FindUserService;
 import com.willian.service.ListAllUsersService;
 import com.willian.service.LoginService;
 import com.willian.service.SignUpService;
+import com.willian.utils.PasswordEncoder;
 
 import lombok.AllArgsConstructor;
 
@@ -25,6 +26,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserController {
     private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
     
     @GetMapping
     public List<User> list(){
@@ -46,7 +48,7 @@ public class UserController {
 
     @PostMapping(path = "login")
     public User login(@RequestBody LoginDto loginData ){
-        LoginService loginService = new LoginService(userRepository);
+        LoginService loginService = new LoginService(userRepository, passwordEncoder);
         User user = loginService.execute(loginData);
         user.setPassword(null);
 
