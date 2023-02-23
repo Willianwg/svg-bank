@@ -1,4 +1,4 @@
-package com.willian.svgbank;
+package com.willian.svgbank.services;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -8,6 +8,7 @@ import com.willian.dto.CreateUserDto;
 import com.willian.model.User;
 import com.willian.repository.IUserRepository;
 import com.willian.service.SignUpService;
+import com.willian.svgbank.inMemoryUserRepository;
 
 class SignUpServiceTest {
 
