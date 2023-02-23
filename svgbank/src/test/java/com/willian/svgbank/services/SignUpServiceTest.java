@@ -8,7 +8,7 @@ import com.willian.dto.CreateUserDto;
 import com.willian.model.User;
 import com.willian.repository.IUserRepository;
 import com.willian.service.SignUpService;
-import com.willian.svgbank.inMemoryUserRepository;
+import com.willian.svgbank.repositories.inMemoryUserRepository;
 
 class SignUpServiceTest {
 

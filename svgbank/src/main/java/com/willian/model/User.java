@@ -1,5 +1,6 @@
 package com.willian.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -29,7 +30,7 @@ public class User {
     private String password;
     
     @OneToMany
-    private List<Transaction> transactions;
+    private List<Transaction> transactions = new ArrayList<>();
 
     private double balance = 100;
 
@@ -45,5 +46,9 @@ public class User {
         }
 
         return false;
+    }
+
+    public void addTransaction(Transaction transaction){
+        this.transactions.add(transaction);
     }
 }

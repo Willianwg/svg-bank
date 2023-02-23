@@ -1,31 +1,35 @@
 package com.willian.service;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.willian.dto.TransferDto;
 import com.willian.model.Transaction;
 import com.willian.model.enums.TransactionTypes;
 import com.willian.model.User;
-import com.willian.repository.TransactionRepository;
-import com.willian.repository.UserRepositoryJPA;
+import com.willian.repository.ITransactionRepository;
+import com.willian.repository.IUserRepository;
+import com.willian.utils.IPasswordEncoder;
 
-import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class TransferService {
-    private UserRepositoryJPA userRepository;
-    private TransactionRepository transactionRepository;
+    private IUserRepository userRepository;
+    private ITransactionRepository transactionRepository;
+    private IPasswordEncoder passwordEncoder;
+
+    public TransferService(IUserRepository userRepository, ITransactionRepository transactionRepository, IPasswordEncoder passwordEncoder){
+        this.transactionRepository = transactionRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public String execute(TransferDto transferData) {
-        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
-        User from = userRepository.findById(transferData.getFrom()).get();
-        User to = userRepository.findById(transferData.getTo()).get();
+        User from = this.userRepository.findById(transferData.getFrom());
+        User to = this.userRepository.findById(transferData.getTo());
 
         String encodedPassword = from.getPassword();
-        boolean match = bcrypt.matches(transferData.getPassword(), encodedPassword);
+        boolean match = this.passwordEncoder.compare(transferData.getPassword(), encodedPassword);
 
         if (!match) {
             return "Fail to resolve transaction, wrong credentials";
@@ -53,14 +57,14 @@ public class TransferService {
         receivedTransaction.setSent_by(from.getEmail());
         receivedTransaction.setReceived_by(to.getEmail());
 
-        transactionRepository.save(sentTransaction);
-        transactionRepository.save(receivedTransaction);
+        this.transactionRepository.save(sentTransaction);
+        this.transactionRepository.save(receivedTransaction);
 
-        from.getTransactions().add(sentTransaction);
-        to.getTransactions().add(receivedTransaction);
+        from.addTransaction(sentTransaction);
+        to.addTransaction(receivedTransaction);
                 
-        userRepository.save(from);
-        userRepository.save(to);
+        this.userRepository.save(from);
+        this.userRepository.save(to);
 
         return "Transaction succeeded";
 

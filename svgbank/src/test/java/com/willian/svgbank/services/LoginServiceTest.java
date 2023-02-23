@@ -9,7 +9,7 @@ import com.willian.dto.LoginDto;
 import com.willian.model.User;
 import com.willian.repository.IUserRepository;
 import com.willian.service.LoginService;
-import com.willian.svgbank.inMemoryUserRepository;
+import com.willian.svgbank.repositories.inMemoryUserRepository;
 import com.willian.svgbank.services.util.PasswordEncoderTest;
 import com.willian.utils.IPasswordEncoder;
 

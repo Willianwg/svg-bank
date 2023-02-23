@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.willian.dto.TransferDto;
 import com.willian.model.Transaction;
+import com.willian.repository.TransactionRepository;
+import com.willian.repository.UserRepository;
 import com.willian.service.GetTransactions;
 import com.willian.service.TransferService;
+import com.willian.utils.PasswordEncoder;
 
 import lombok.AllArgsConstructor;
 
@@ -21,8 +24,10 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/transaction")
 @AllArgsConstructor
 public class TransactionController {
-    private TransferService transferService;
     private GetTransactions getTransactions;
+    private TransactionRepository transactionRepository;
+    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/{email}")
     public List<Transaction> getTransactions(@PathVariable("email") String email){
@@ -31,6 +36,7 @@ public class TransactionController {
 
     @PostMapping
     public String transfer(@RequestBody TransferDto transferData){
+        TransferService transferService = new TransferService(userRepository, transactionRepository, passwordEncoder);
         return transferService.execute(transferData);
     }
 

@@ -1,4 +1,4 @@
-package com.willian.svgbank;
+package com.willian.svgbank.repositories;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,14 @@ public class inMemoryUserRepository implements IUserRepository {
 
     @Override
     public User save(User user) {
-        Long id = (long) 1;
+        if(user.getId() != null){
+            User before = this.users.stream().filter(item -> user.getEmail() == item.getEmail()).findFirst().get();
+            int index = this.users.indexOf(before);
+            this.users.set(index, user);
+
+            return user;
+        }
+        Long id = (long) this.users.size();
         user.setId(id);
         this.users.add(user);
 
